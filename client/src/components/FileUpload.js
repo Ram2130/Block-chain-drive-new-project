@@ -1,6 +1,10 @@
 import { useState } from "react";
+ 
+import Button from 'react-bootstrap/Button';
 import axios from "axios";
-import "./FileUpload.css";
+// import "./FileUpload.css";
+import  FileUploading from "./FileUpload/FileUpload"
+import Form from 'react-bootstrap/Form';
 const FileUpload = ({ contract, account, provider }) => {
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("No image selected");
@@ -16,8 +20,8 @@ const FileUpload = ({ contract, account, provider }) => {
           url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
           data: formData,
           headers: {
-            pinata_api_key: `Enter Your Key`,
-            pinata_secret_api_key: `Enter Your Secret Key`,
+            pinata_api_key: `c1a77ec97b5e124f2be0`,
+            pinata_secret_api_key: `cf0404aa396ae357a420feaaf70a571a6eb42cfa02f5147d915973c9035ccc09`,
             "Content-Type": "multipart/form-data",
           },
         });
@@ -46,9 +50,9 @@ const FileUpload = ({ contract, account, provider }) => {
     e.preventDefault();
   };
   return (
-    <div className="top">
+    <div className="top" style={{marginLeft:"25%"}}>
       <form className="form" onSubmit={handleSubmit}>
-        <label htmlFor="file-upload" className="choose">
+        {/* <label htmlFor="file-upload" className="choose">
           Choose Image
         </label>
         <input
@@ -58,11 +62,20 @@ const FileUpload = ({ contract, account, provider }) => {
           name="data"
           onChange={retrieveFile}
         />
-        <span className="textArea">Image: {fileName}</span>
-        <button type="submit" className="upload" disabled={!file}>
+        <span className="textArea">Image: {fileName}</span> */}
+        <Form.Group controlId="formFile" className="mb-3">
+        <Form.Label>Please Upload Your File</Form.Label>
+        <Form.Control onChange={retrieveFile} name="data" id="file-upload"  disabled={!account} type="file" />
+      </Form.Group>
+        {/* <button type="submit" className="upload" disabled={!file}>
           Upload File
-        </button>
+        </button> */}
+        <div style={{display:"flex"}}>
+        <Button style={{marginRight:"10px"}} type="submit" className="upload" disabled={!file}   variant="secondary">Upload File</Button>
+        <FileUploading  />
+        </div>
       </form>
+   
     </div>
   );
 };
